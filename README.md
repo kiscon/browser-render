@@ -8,7 +8,7 @@
 * Safari: webkit;
 * IE: Trident;
 * 360安全浏览器：IE内核；
-* 360极速浏览器：Chromium和IE内核；
+* 360极速浏览器：Chrome和IE内核；
 * QQ浏览器：普通模式-Trident，极速模式-webkit;
 
 ## 2、浏览器的组件。
@@ -19,7 +19,7 @@
 * UI后端 － 用来绘制类似组合选择框及对话框等基本组件，具有不特定于某个平台的通用接口，底层使用操作系统的用户接口。
 * JS解释器 － 用来解释执行JS代码。
 * 数据存储 － 属于持久层，浏览器需要在硬盘中保存类似cookie的各种数据，HTML5定义了web database技术，这是一种轻量级完整的客户端存储技术
-![image](./img/1.png)
+  ![image](./img/1.png)
 
 ## 3、渲染引擎（Rendering Engine）
 > 渲染引擎可是现实html、xml、图片以及借助一些插件显示其他内容，例如pdf插件。
@@ -39,7 +39,7 @@
 
 > 下图为webkit的渲染流程：
 >
-![image](./img/3.png)
+> ![image](./img/3.png)
 
 ### [2]动画渲染流程
 * JavaScript：JavaScript实现动画效果，DOM元素操作等。
@@ -50,7 +50,7 @@
 
 > 以下是常见的动画渲染过程：
 >
-![image](./img/4.png)
+> ![image](./img/4.png)
 
 
 ## 4、Reflow（回流）/Repaint（重绘）
@@ -60,7 +60,7 @@
 ## 5、compositor layer（合成渲染层）
 > 一个网页通常可以包含很多层，如下所示：
 >
-![image](./img/5.png)
+> ![image](./img/5.png)
 >
 > 对于transform/opacity 这两种变换，浏览器不会用repaint/reflow处理，而是在已经渲染好的元素基础上进行附加工作。例如一个黑底色的div,往右飞100px, 传统JS过程是对每次修改left值后重新画一个div。而如果我们用transform:translate(0,100px) ,transition:2s 浏览器则是把这个绘制好的div单独放在一个画面层再平移这个层过去，div的几何形状，颜色不会再重复计算，而是保留在这个图层中。
 > 可以通过3d变化的元素，来集中显卡资源渲染动画，例如：translate3d、translateZ，这样能使得动画更平滑。
@@ -76,7 +76,7 @@
 > 动画实现，避免使用setTimeout或setInterval，尽量使用requestAnimationFrame
 > setTimeout(callback)和setInterval(callback)无法保证callback函数的执行时机，很可能在帧结束的时候执行，从而导致丢帧，如下图：
 >
-![image](./img/6.png)
+> ![image](./img/6.png)
 >
 > requestAnimationFrame(callback)可以保证callback函数在每帧动画开始的时候执行。
 > jQuery的animate函数就是用setTimeout来实现动画，可以通过jquery-requestAnimationFrame这个补丁来用requestAnimationFrame替代setTimeout。
@@ -87,9 +87,9 @@
 
 > 下图是requestAnimationFrame的兼容性：
 >
-![image](./img/7.png)
+> ![image](./img/7.png)
 
-#### 利用webSocket来运行耗时很长的js代码
+#### 利用Web Workers来运行耗时很长的js代码
 > JavaScript代码运行在浏览器的主线程上，与此同时，浏览器的主线程还负责样式计算、布局、绘制的工作，如果JavaScript代码运行时间过长，就会阻塞其他渲染工作，很可能会导致丢帧。
 > 大多数设备的刷新频率是60次/秒，也就说是浏览器对每一帧画面的渲染工作要在16ms内完成，超出这个时间，页面的渲染就会出现卡顿现象，影响用户体验。
 > 但在动画过程中，由于已经被占用了不少时间，所以JavaScript代码运行耗时应该控制在3-4毫秒。
@@ -108,13 +108,13 @@
     });
 ```
 
-> 下图是webSocket的兼容性：
+> 下图是Web Workers的兼容性：
 >
-![image](./img/8.png)
+> ![image](./img/8.png)
 
 #### 把DOM元素的更新划分为多个小任务，分别在多个frame中去完成
 
-> webSocket是有限制的，不能操作DOM，只能执行纯计算类工作。如果需要操作DOM，可以切分为几个任务小块，每个任务都作为requestAnimationFrame的callback来执行。
+> Web Workers是有限制的，不能操作DOM，只能执行纯计算类工作。如果需要操作DOM，可以切分为几个任务小块，每个任务都作为requestAnimationFrame的callback来执行。
 ```
      var taskList = breakBigTaskIntoMicroTasks(monsterTaskList);
      requestAnimationFrame(processTaskList);
@@ -133,8 +133,8 @@
 ### [2] 降低样式计算的范围、复杂度
 > 增删DOM元素，改动元素的几何属性、应用效果，都会引起DOM的改变，导致reflow，即重新计算样式规则。
 > 样式计算主要分为两步：
->> * 创建一套匹配的样式选择器
->> * 为匹配的样式选择器计算具体的样式规则。
+> > * 创建一套匹配的样式选择器
+> > * 为匹配的样式选择器计算具体的样式规则。
 
 #### 尽量保持class的简短，或使用Web Components框架。
 ```
@@ -151,8 +151,8 @@
 ### [3] 避免大规模、复杂的布局
 > 布局就是计算DOM元素的大小和位置的过程，如果你的页面中包含很多元素，那么计算这些元素的位置将耗费很长时间。
 > 布局的主要消耗在于：
->> * 需要布局的DOM元素的数量；
->> * 布局过程的复杂程度
+> > * 需要布局的DOM元素的数量；
+> > * 布局过程的复杂程度
 
 #### 尽可能不触发布局
 > 尽可能避免触发布局(即尽量避免操于DOM元素的“几何属性”：width/height/left/top)，可以使用Chrome DevTools工具的Timeline查看布局明细。
@@ -161,7 +161,7 @@
 > 老布局：相对/绝对/浮动，flexbox：流式布局。
 > 下图是flexbox布局的兼容性
 >
-![image](./img/9.png)
+> ![image](./img/9.png)
 
 #### 避免强制同步布局
 > 强制同步布局：可以强制浏览器在执行JavaScript脚本之前先执行布局过程（参见动画渲染流程图）。
